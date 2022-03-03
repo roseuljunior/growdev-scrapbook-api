@@ -50,7 +50,7 @@ app.post('/users/login', (request: Request, response: Response) => {
     })
 })
 
-app.get('/users', (request: Request, response: Response) => {
+/*app.get('/users', (request: Request, response: Response) => {
     const { limit } = request.query
     
         const limitString = limit.toString()
@@ -61,7 +61,7 @@ app.get('/users', (request: Request, response: Response) => {
     }
 
     return response.json(users)
-})
+})*/
 
 app.get('/users:id', (request: Request, response: Response) => {
     const { id } = request.params
