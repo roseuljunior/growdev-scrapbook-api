@@ -52,8 +52,7 @@ app.post('/users/login', (request: Request, response: Response) => {
 
 app.get('/users', (request: Request, response: Response) => {
     const { limit } = request.query
-
-    if (limit) {
+    
         const limitString = limit.toString()
         const limitNumber = parseInt(limitString)
         const limitedUsers = users.slice(0, limitNumber)
