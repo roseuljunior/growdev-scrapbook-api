@@ -31,39 +31,33 @@ class Errands {
 }
 
 const users: Users [] = [];
+const newUser = new Users('', '')
 
-app.post('/users/login', (request: Request, response: Response) => {
-    const {  id, login, password, confirmPassword } = request.body 
-    
-    if(password != confirmPassword) {
-        return response.status(404).json({
-            mensagem: 'Senha inválida!'
-        })
-    }
-    
-    users.push()
-    return response.status(201).json({
-        id,
+app.post('/create/user', (request: Request, response: Response) => {
+    const { login, password } = request.body
+    const user = {
         login,
         password,
-        confirmPassword
-    })
+    }
+    users.push(newUser)
+    return response.status(201).json(newUser)
 })
 
-/*app.get('/users', (request: Request, response: Response) => {
+app.get('/user', (request: Request, response: Response) => {
     const { limit } = request.query
-    
-        const limitString = limit.toString()
+
+    if(limit) {
+        const limitString = limit?.toString()
         const limitNumber = parseInt(limitString)
         const limitedUsers = users.slice(0, limitNumber)
-
+        
         return response.json(limitedUsers)
     }
-
+    
     return response.json(users)
-})*/
+})
 
-app.get('/users:id', (request: Request, response: Response) => {
+app.get('/user:id', (request: Request, response: Response) => {
     const { id } = request.params
     const user = users.find(user => user.id === (id))
     
@@ -74,6 +68,14 @@ app.get('/users:id', (request: Request, response: Response) => {
     return response.status(404).json({
         mensagem: 'Usuário não encontrado, ID inválido'
     })
+})
+
+app.put('/user:id', (request: Request, response: Response) => {
+
+})
+
+app.delete('/user:id', (request: Request, response: Response) => {
+
 })
 
 const port = process.env.PORT || 8080
