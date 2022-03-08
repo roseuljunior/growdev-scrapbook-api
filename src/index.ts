@@ -19,34 +19,32 @@ class Users {
     id = Math.random().toString(16).substring(2)
     errands: Errands [] = []
     constructor(public login: string, public password: string) {
-        this.id;
+        this.id
     }
 }
 
 class Errands {
     id = Math.random().toString(16).substring(2)
     constructor(public title: string, public descricption: string) {
-        this.id;
+        this.id
     }
 }
 
-const users: Users [] = [];
+const users: Users [] = []
 const newUser = new Users('', '')
 
-app.post('/create/user', (request: Request, response: Response) => {
+app.post('/user/create', (request: Request, response: Response) => {
     const { login, password } = request.body
-    const user = {
-        login,
-        password,
-    }
+    const newUser = new Users(login, password)
+    
     users.push(newUser)
     return response.status(201).json(newUser)
 })
 
 app.get('/user', (request: Request, response: Response) => {
     const { limit } = request.query
-
-    if(limit) {
+    
+    if (limit) {
         const limitString = limit?.toString()
         const limitNumber = parseInt(limitString)
         const limitedUsers = users.slice(0, limitNumber)
@@ -57,7 +55,7 @@ app.get('/user', (request: Request, response: Response) => {
     return response.json(users)
 })
 
-app.get('/user:id', (request: Request, response: Response) => {
+app.get('/user/:id', (request: Request, response: Response) => {
     const { id } = request.params
     const user = users.find(user => user.id === (id))
     
@@ -71,11 +69,34 @@ app.get('/user:id', (request: Request, response: Response) => {
 })
 
 app.put('/user:id', (request: Request, response: Response) => {
+    const { id } = request.params
+    const { login, password } = request.body
+    const indexUser = users.findIndex(user => user.id === (id))
+    
+    if (indexUser < 0) {
+        return response.status(404).json({
+            mensagem: 'Usuário não encontrado'
+        })
+    }
 
+    users[indexUser].login = login
+    users[indexUser].password = password
+
+    return response.json(users[indexUser])
 })
 
 app.delete('/user:id', (request: Request, response: Response) => {
+    const { id } = request.params
+    const indexUser = users.findIndex(user => user.id === (id))
 
+    if (indexUser < 0) {
+        return response.status(404).json({
+            mensagem: 'Usuário não encontrado'
+        })
+    }
+
+    users.splice(indexUser, 1)
+    return response.sendStatus(204)
 })
 
 const port = process.env.PORT || 8080
