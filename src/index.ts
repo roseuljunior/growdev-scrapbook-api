@@ -5,30 +5,19 @@ import { userInfo } from 'os'
 import { stringify } from 'querystring'
 import { json } from 'stream/consumers'
 
+import Users from './classes/User'
+import Errands from './classes/Errands'
+
+
 const app = express()
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }))              
 app.use(cors())
 
 app.get('/', (request: Request, response: Response) => {
     return response.send('OK!')
 })
-
-class Users {
-    id = Math.random().toString(16).substring(2)
-    errands: Errands [] = []
-    constructor(public login: string, public password: string) {
-        this.id
-    }
-}
-
-class Errands {
-    id = Math.random().toString(16).substring(2)
-    constructor(public title: string, public descricption: string) {
-        this.id
-    }
-}
 
 const users: Users [] = []
 const newUser = new Users('', '')
@@ -39,17 +28,17 @@ app.post('/user/create', (request: Request, response: Response) => {
     
     users.push(newUser)
     return response.status(201).json(newUser)
-})
+})      
 
 app.get('/user', (request: Request, response: Response) => {
     const { limit } = request.query
     
-    if (limit) {
-        const limitString = limit?.toString()
+    if (limit) {                               
+        const limitString = limit?.toString()                      
         const limitNumber = parseInt(limitString)
         const limitedUsers = users.slice(0, limitNumber)
         
-        return response.json(limitedUsers)
+        return response.json(limitedUsers)                                
     }
     
     return response.json(users)
@@ -60,15 +49,16 @@ app.get('/user/:id', (request: Request, response: Response) => {
     const user = users.find(user => user.id === (id))
     
     if (user) {
-        return response.json(users)
+        return response.json(user)
     }
-   
+
     return response.status(404).json({
         mensagem: 'Usuário não encontrado, ID inválido'
     })
+    
 })
 
-app.put('/user:id', (request: Request, response: Response) => {
+app.put('/user/:id', (request: Request, response: Response) => {
     const { id } = request.params
     const { login, password } = request.body
     const indexUser = users.findIndex(user => user.id === (id))
@@ -85,7 +75,7 @@ app.put('/user:id', (request: Request, response: Response) => {
     return response.json(users[indexUser])
 })
 
-app.delete('/user:id', (request: Request, response: Response) => {
+app.delete('/user/:id', (request: Request, response: Response) => {
     const { id } = request.params
     const indexUser = users.findIndex(user => user.id === (id))
 
@@ -104,3 +94,4 @@ const port = process.env.PORT || 8080
 app.listen(port, () => {
     console.log('API rodando...');
 })
+
