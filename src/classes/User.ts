@@ -8,7 +8,7 @@ export default class Users {
    
     token: string = '';
 
-    constructor(public login: string, public password: string) {};
+    constructor(public email: string, public password: string) {};
 
     setLogin () {
         this.token = generateRandomToken();
