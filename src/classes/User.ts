@@ -1,7 +1,7 @@
 function generateRandomToken() {;
     const token = Math.random().toString(16).substring(2);
 
-    return token
+    return token;
 };
 export default class Users {
     id = Math.random().toString(16).substring(2);
@@ -17,6 +17,3 @@ export default class Users {
         this.token = '';
     };
 };
- 
-
-

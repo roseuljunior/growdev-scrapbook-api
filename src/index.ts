@@ -19,16 +19,15 @@ app.get('/', (request: Request, response: Response) => {
     return response.send('OK!');
 });
 
-// USERS //
 app.post('/myId', checkToken, (request: Request, response: Response) => {
     const { userIndex } = request.body;
 
     if (userIndex >= 0) {
         return response.json(users[userIndex].id);
-    }
+    };
 
     return response.sendStatus(401);
-})
+});
 
 app.post('/user/create', (request: Request, response: Response) => {
     const { email, password } = request.body;
@@ -47,11 +46,11 @@ app.post('/user/create', (request: Request, response: Response) => {
 
             return response.status(201).json(newUser);  
         };
-    }
+    };
     
     return response.status(400).json({
         mensagem: 'Envie um e-mail válido.'
-    })
+    });
 });
 
 app.post('/user/login', (request: Request, response: Response) => {
@@ -91,10 +90,10 @@ app.post('/checkToken', checkToken, (request: Request, response: Response) => {
 
     if (userIndex >= 0) {
         return response.sendStatus(200);
-    }
+    };
 
     return response.sendStatus(401);
-})
+});
 
 app.post('/user/logout', (request: Request, response: Response) => {
     const { token } = request.body;
@@ -186,21 +185,20 @@ function checkToken(request: Request, response: Response, next: NextFunction) {
      
         if(userIndex >= 0) {
              request.body.userIndex = userIndex;
-             next()
-         }
+             next();
+         };
          
          return response.status(403).json({
              mensagem: 'Token inválido!'
-         })
-    }
+         });
+    };
     
     return response.status(401).json({
         mensagem: 'Envie seu token'
-    })
+    });
 
-}
+};
 
-// ERRANDS //
 app.post('/errands', checkToken, (request: Request, response: Response) => {
     const { userIndex, title, description } = request.body;
     const newErrands = new Errands(users[userIndex].id, title, description);
@@ -228,7 +226,7 @@ app.put('/errands/:id', checkToken, (request: Request, response: Response) => {
         errands[indexErrands].description = description;
     
         return response.json(errands[indexErrands]);
-    }
+    };
 
     return response.status(403).json({
         mensagem: 'Apenas o autor da mensagem pode alterá-la.'
@@ -255,8 +253,8 @@ app.delete('/errands/:id', checkToken, (request: Request, response: Response) =>
             errands.splice(indexErrands, 1);
     
             return response.sendStatus(204);
-        }
-    }
+        };
+    };
 
     return response.status(403).json({
         mensagem: 'Apenas o autor da mensagem pode deleta-la.'
@@ -289,9 +287,8 @@ app.post('/errands/search/:id', checkToken, (request: Request, response: Respons
 
 app.post('/getposts', checkToken, (request: Request, response: Response) => {
     return response.json(errands);
-})
+});
 
 app.listen(port, () => {
     console.log('API rodando...');
 });
-
