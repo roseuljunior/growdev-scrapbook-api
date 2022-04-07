@@ -3,9 +3,8 @@ import cors from 'cors';
 
 import Users from './classes/User';
 import Errands from './classes/Errands';
-import { request } from 'http';
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 const app = express();
 
 app.use(express.json());
