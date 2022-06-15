@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
 export class CreateTableErrands1655255547616 implements MigrationInterface {
 
@@ -33,6 +33,11 @@ export class CreateTableErrands1655255547616 implements MigrationInterface {
                     isNullable: false,
                 },
             ],
+            foreignKeys: [new TableForeignKey({
+                columnNames: ['user_uid'],
+                referencedTableName: 'user',
+                referencedColumnNames: ['uid'],
+            })],
         }));
     }
 
