@@ -22,6 +22,9 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
     "build": "tsc",
-    "start": "node ./dist/index"
+    "start": "node ./dist/index",
+    "migration:run": "ts-node-dev --transpile-only ./node_modules/typeorm/cli.js migration:run",
+    "migration:revert": "ts-node-dev --transpile-only ./node_modules/typeorm/cli.js migration:revert"
+
   }
 }
