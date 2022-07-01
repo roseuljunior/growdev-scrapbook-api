@@ -1,6 +1,6 @@
 import express from "express";
 import cors from 'cors';
-import { logMiddleware } from './middlewares';
+import { errandsMiddlewares } from './middlewares';
 import path from 'path';
 import fs from 'fs';
 import { HttpRouter } from './contracts';
@@ -37,7 +37,7 @@ export default class Application {
     };
 
     private middlewares() {
-        this.#express.use(logMiddleware);
+        this.#express.use(errandsMiddlewares);
     };
     
     private routers() {
